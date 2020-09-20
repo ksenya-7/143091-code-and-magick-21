@@ -65,12 +65,12 @@ const margin = function (names) {
   return (CloudOptions.WIDTH - names.length * BAR_WIDTH - (names.length - 1) * GAP) / 2;
 };
 
-let getRect = function (ctx, name, names, time, times, j) {
-  let getRandom = function (min, max) {
+const getRect = function (ctx, name, names, time, times, j) {
+  const getRandom = function (min, max) {
     return Math.floor(Math.random() * max) - min + 1;
   };
 
-  let getRandomColor = function () {
+  const getRandomColor = function () {
     return `hsl(240, ` + getRandom(0, 100) + `%, 50%)`;
   };
 
@@ -86,7 +86,7 @@ let getRect = function (ctx, name, names, time, times, j) {
   );
 };
 
-let getText = function (ctx, name, names, time, times, j) {
+const getText = function (ctx, name, names, time, times, j) {
   ctx.fillStyle = ColorUsed.BLACK;
 
   ctx.fillText(
@@ -101,7 +101,7 @@ let getText = function (ctx, name, names, time, times, j) {
   );
 };
 
-let getResults = function (ctx, names, times) {
+const getResults = function (ctx, names, times) {
   for (let j = 0; j < names.length; j++) {
     getText(ctx, names[j], names, times[j], times, j);
     getRect(ctx, names[j], names, times[j], times, j);
