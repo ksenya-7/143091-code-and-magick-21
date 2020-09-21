@@ -1,6 +1,6 @@
 "use strict";
 
-// const SHIFT = 10;
+const SHIFT = 10;
 
 const FONT_STYLE = `16px PT Mono`;
 const BASELINE_HANGING = `hanging`;
@@ -48,8 +48,8 @@ const getGreeting = (ctx) => {
   ctx.font = FONT_STYLE;
   ctx.textBaseline = BASELINE_HANGING;
 
-  ctx.fillText(Message.YOU_WON, CloudOptions.X + 20, CloudOptions.Y + 30);
-  ctx.fillText(Message.RESULTS, CloudOptions.X + 20, CloudOptions.Y + 50);
+  ctx.fillText(Message.YOU_WON, CloudOptions.X + SHIFT * 2, CloudOptions.Y + SHIFT * 2);
+  ctx.fillText(Message.RESULTS, CloudOptions.X + SHIFT * 2, CloudOptions.Y + SHIFT * 4);
 };
 
 const getMaxElement = function (arr) {
@@ -87,7 +87,7 @@ const getRect = function (ctx, name, names, time, times, j) {
 
   ctx.fillRect(
       CloudOptions.X + margin(names) + (GAP + BAR_WIDTH) * j,
-      CloudOptions.HEIGHT - 30,
+      CloudOptions.HEIGHT - SHIFT * 3,
       BAR_WIDTH,
       -(BAR_MAX_HEIGHT * time) / maxTime(times)
   );
@@ -100,12 +100,12 @@ const getText = function (ctx, name, names, time, times, j) {
   ctx.fillText(
       name,
       CloudOptions.X + margin(names) + (GAP + BAR_WIDTH) * j,
-      CloudOptions.HEIGHT - 10
+      CloudOptions.HEIGHT - SHIFT * 2
   );
   ctx.fillText(
       Math.round(time),
       CloudOptions.X + margin(names) + (GAP + BAR_WIDTH) * j,
-      BAR_MAX_HEIGHT - (BAR_MAX_HEIGHT * time) / maxTime(times) + 80
+      BAR_MAX_HEIGHT - (BAR_MAX_HEIGHT * time) / maxTime(times) + SHIFT * 7
   );
 };
 
@@ -117,9 +117,9 @@ const getResults = function (ctx, names, times) {
 };
 
 window.renderStatistics = function (ctx, names, times) {
-  ctx.translate(10, 10);
+  ctx.translate(SHIFT, SHIFT);
   renderCloud(ctx, ColorUsed.GRAY);
-  ctx.translate(-10, -10);
+  ctx.translate(-SHIFT, -SHIFT);
   renderCloud(ctx, ColorUsed.WHITE);
   getGreeting(ctx);
   getResults(ctx, names, times);

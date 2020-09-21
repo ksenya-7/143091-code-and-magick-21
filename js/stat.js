@@ -44,8 +44,8 @@ const getGreeting = (ctx) => {
   ctx.font = FONT_STYLE;
   ctx.textBaseline = BASELINE_HANGING;
 
-  ctx.fillText(Message.YOU_WON, CloudOptions.X + 20, CloudOptions.Y + 30);
-  ctx.fillText(Message.RESULTS, CloudOptions.X + 20, CloudOptions.Y + 50);
+  ctx.fillText(Message.YOU_WON, CloudOptions.X + SHIFT * 2, CloudOptions.Y + SHIFT * 2);
+  ctx.fillText(Message.RESULTS, CloudOptions.X + SHIFT * 2, CloudOptions.Y + SHIFT * 4);
 };
 
 const getMaxElement = function (arr) {
@@ -83,7 +83,7 @@ const getRect = function (ctx, name, names, time, times, j) {
 
   ctx.fillRect(
       CloudOptions.X + margin(names) + (GAP + BAR_WIDTH) * j,
-      CloudOptions.HEIGHT - 30,
+      CloudOptions.HEIGHT - SHIFT * 3,
       BAR_WIDTH,
       -(BAR_MAX_HEIGHT * time) / maxTime(times)
   );
@@ -96,12 +96,12 @@ const getText = function (ctx, name, names, time, times, j) {
   ctx.fillText(
       name,
       CloudOptions.X + margin(names) + (GAP + BAR_WIDTH) * j,
-      CloudOptions.HEIGHT - 10
+      CloudOptions.HEIGHT - SHIFT * 2
   );
   ctx.fillText(
       Math.round(time),
       CloudOptions.X + margin(names) + (GAP + BAR_WIDTH) * j,
-      BAR_MAX_HEIGHT - (BAR_MAX_HEIGHT * time) / maxTime(times) + 80
+      BAR_MAX_HEIGHT - (BAR_MAX_HEIGHT * time) / maxTime(times) + SHIFT * 7
   );
 };
 
