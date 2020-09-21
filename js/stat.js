@@ -3,6 +3,7 @@
 const SHIFT = 10;
 
 const FONT_STYLE = `16px PT Mono`;
+const BASELINE_HANGING = `hanging`;
 
 const BAR_WIDTH = 40;
 const BAR_MAX_HEIGHT = 150;
@@ -41,6 +42,8 @@ const renderClouds = function (ctx) {
 const getGreeting = (ctx) => {
   ctx.fillStyle = ColorUsed.BLACK;
   ctx.font = FONT_STYLE;
+  ctx.textBaseline = BASELINE_HANGING;
+
   ctx.fillText(Message.YOU_WON, CloudOptions.X + 20, CloudOptions.Y + 30);
   ctx.fillText(Message.RESULTS, CloudOptions.X + 20, CloudOptions.Y + 50);
 };
@@ -88,6 +91,7 @@ const getRect = function (ctx, name, names, time, times, j) {
 
 const getText = function (ctx, name, names, time, times, j) {
   ctx.fillStyle = ColorUsed.BLACK;
+  ctx.textBaseline = BASELINE_HANGING;
 
   ctx.fillText(
       name,
