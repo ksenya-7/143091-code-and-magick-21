@@ -17,7 +17,7 @@ const CloudOptions = {
   HEIGHT: 270
 };
 
-const ColorUsed = {
+const Color = {
   GRAY: `hsl(0, 0%, 30%)`,
   WHITE: `hsl(0, 0%, 100%)`,
   BLACK: `hsl(0, 0%, 0%)`,
@@ -29,18 +29,18 @@ const Message = {
   RESULTS: `Список результатов:`
 };
 
-const renderCloud = function (ctx, x, y, color) {
+const renderCloud = (ctx, x, y, color) => {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CloudOptions.WIDTH, CloudOptions.HEIGHT);
 };
 
-const renderClouds = function (ctx) {
-  renderCloud(ctx, CloudOptions.X + SHIFT, CloudOptions.Y + SHIFT, ColorUsed.GRAY);
-  renderCloud(ctx, CloudOptions.X, CloudOptions.Y, ColorUsed.WHITE);
+const renderClouds = (ctx) => {
+  renderCloud(ctx, CloudOptions.X + SHIFT, CloudOptions.Y + SHIFT, Color.GRAY);
+  renderCloud(ctx, CloudOptions.X, CloudOptions.Y, Color.WHITE);
 };
 
-const getGreeting = (ctx) => {
-  ctx.fillStyle = ColorUsed.BLACK;
+const renderGreeting = (ctx) => {
+  ctx.fillStyle = Color.BLACK;
   ctx.font = FONT_STYLE;
   ctx.textBaseline = BASELINE_HANGING;
 
@@ -48,7 +48,7 @@ const getGreeting = (ctx) => {
   ctx.fillText(Message.RESULTS, CloudOptions.X + SHIFT * 2, CloudOptions.Y + SHIFT * 4);
 };
 
-const getMaxElement = function (arr) {
+const getMaxElement = (arr) => {
   let maxElement = arr[0];
 
   for (let i = 1; i < arr.length; i++) {
@@ -60,60 +60,53 @@ const getMaxElement = function (arr) {
   return maxElement;
 };
 
-const maxTime = function (tick) {
-  return getMaxElement(tick);
-};
+const getMargin = (names) => (CloudOptions.WIDTH - names.length * BAR_WIDTH - (names.length - 1) * GAP) / 2;
 
-const margin = function (names) {
-  return (CloudOptions.WIDTH - names.length * BAR_WIDTH - (names.length - 1) * GAP) / 2;
-};
+const getRandom = (min, max) => Math.floor(Math.random() * max) - min + 1;
 
-const getRect = function (ctx, name, names, time, times, j) {
-  const getRandom = function (min, max) {
-    return Math.floor(Math.random() * max) - min + 1;
-  };
+const getRandomColor = () => `hsl(240, ` + getRandom(0, 100) + `%, 50%)`;
 
-  const getRandomColor = function () {
-    return `hsl(240, ` + getRandom(0, 100) + `%, 50%)`;
-  };
+const getRect = (ctx, name, names, time, times, i) => {
+  const getRectColor = () =>
+    name === `Вы`
+      ? `hsl(0, 100%, 50%)`
+      : getRandomColor();
 
-  ctx.fillStyle = name === `Вы`
-    ? `hsl(0, 100%, 50%)`
-    : getRandomColor();
+  ctx.fillStyle = getRectColor();
 
   ctx.fillRect(
-      CloudOptions.X + margin(names) + (GAP + BAR_WIDTH) * j,
+      CloudOptions.X + getMargin(names) + (GAP + BAR_WIDTH) * i,
       CloudOptions.HEIGHT - SHIFT * 3,
       BAR_WIDTH,
-      -(BAR_MAX_HEIGHT * time) / maxTime(times)
+      -(BAR_MAX_HEIGHT * time) / getMaxElement(times)
   );
 };
 
-const getText = function (ctx, name, names, time, times, j) {
-  ctx.fillStyle = ColorUsed.BLACK;
+const renderNameAndScore = (ctx, name, names, time, times, i) => {
+  ctx.fillStyle = Color.BLACK;
   ctx.textBaseline = BASELINE_HANGING;
 
   ctx.fillText(
       name,
-      CloudOptions.X + margin(names) + (GAP + BAR_WIDTH) * j,
+      CloudOptions.X + getMargin(names) + (GAP + BAR_WIDTH) * i,
       CloudOptions.HEIGHT - SHIFT * 2
   );
   ctx.fillText(
       Math.round(time),
-      CloudOptions.X + margin(names) + (GAP + BAR_WIDTH) * j,
-      BAR_MAX_HEIGHT - (BAR_MAX_HEIGHT * time) / maxTime(times) + SHIFT * 7
+      CloudOptions.X + getMargin(names) + (GAP + BAR_WIDTH) * i,
+      BAR_MAX_HEIGHT - (BAR_MAX_HEIGHT * time) / getMaxElement(times) + SHIFT * 7
   );
 };
 
-const getResults = function (ctx, names, times) {
-  for (let j = 0; j < names.length; j++) {
-    getText(ctx, names[j], names, times[j], times, j);
-    getRect(ctx, names[j], names, times[j], times, j);
+const renderResults = (ctx, names, times) => {
+  for (let i = 0; i < names.length; i++) {
+    renderNameAndScore(ctx, names[i], names, times[i], times, i);
+    getRect(ctx, names[i], names, times[i], times, i);
   }
 };
 
-window.renderStatistics = function (ctx, names, times) {
+window.renderStatistics = (ctx, names, times) => {
   renderClouds(ctx);
-  getGreeting(ctx);
-  getResults(ctx, names, times);
+  renderGreeting(ctx);
+  renderResults(ctx, names, times);
 };
