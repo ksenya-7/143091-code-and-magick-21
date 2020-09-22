@@ -66,13 +66,14 @@ const getRandom = (min, max) => Math.floor(Math.random() * max) - min + 1;
 
 const getRandomColor = () => `hsl(240, ` + getRandom(0, 100) + `%, 50%)`;
 
-const getRect = (ctx, name, names, time, times, i) => {
-  const getRectColor = () =>
-    name === `Вы`
-      ? `hsl(0, 100%, 50%)`
-      : getRandomColor();
+const getRectColor = (name) =>
+  name === `Вы`
+    ? `hsl(0, 100%, 50%)`
+    : getRandomColor();
 
-  ctx.fillStyle = getRectColor();
+const getRect = (ctx, name, names, time, times, i) => {
+
+  ctx.fillStyle = getRectColor(name);
 
   ctx.fillRect(
       CloudOptions.X + getMargin(names) + (GAP + BAR_WIDTH) * i,
