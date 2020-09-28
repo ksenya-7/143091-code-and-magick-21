@@ -1,7 +1,12 @@
 'use strict';
 
+const NAMES = [`Иван`, `Хуан Себастьян`, `Мария`, `Кристоф`, `Виктор`, `Юлия`, `Люпита`, `Вашингтон`];
+const LAST_NAMES = [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`];
+const COAT_COLORS = [`rgb(101, 137, 164)`, `rgb(241, 43, 107)`, `rgb(146, 100, 161)`, `rgb(56, 159, 117)`, `rgb(215, 210, 55)`, `rgb(0, 0, 0)`];
+const EYE_COLORS = [`black`, `red`, `blue`, `yellow`, `green`];
+const WIZARDS_AMOUNT = 4;
+
 const userDialog = document.querySelector(`.setup`);
-userDialog.classList.remove(`hidden`);
 
 const similarListElement = userDialog.querySelector(`.setup-similar-list`);
 
@@ -9,26 +14,19 @@ const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
   .content
   .querySelector(`.setup-similar-item`);
 
-const NAMES = [`Иван`, `Хуан Себастьян`, `Мария`, `Кристоф`, `Виктор`, `Юлия`, `Люпита`, `Вашингтон`];
-const LAST_NAMES = [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`];
-const COAT_COLORS = [`rgb(101, 137, 164)`, `rgb(241, 43, 107)`, `rgb(146, 100, 161)`, `rgb(56, 159, 117)`, `rgb(215, 210, 55)`, `rgb(0, 0, 0)`];
-const EYE_COLORS = [`black`, `red`, `blue`, `yellow`, `green`];
-const WIZARD_LENGTH = 4;
-const wizards = [];
+const getRandom = (min, max) => Math.floor(Math.random() * max) - min + 1;
 
-const getRandomNumber = (arr) => Math.floor(Math.random() * (arr.length));
+const getRandomFrom = (arr) => arr[getRandom(0, arr.length - 1)];
 
-const getWizardName = () => NAMES[getRandomNumber(NAMES)] + ` ` + LAST_NAMES[getRandomNumber(LAST_NAMES)];
-
-const getRandomFrom = (colors) => colors[getRandomNumber(COAT_COLORS)];
-
-for (let i = 0; i < WIZARD_LENGTH; i++) {
-  wizards.push({
-    name: getWizardName(),
+const generateWizards = (amount) => {
+  return new Array(amount).fill(``).map(() => ({
+    name: getRandomFrom(NAMES) + ` ` + getRandomFrom(LAST_NAMES),
     coatColor: getRandomFrom(COAT_COLORS),
     eyesColor: getRandomFrom(EYE_COLORS)
-  });
-}
+  }));
+};
+
+const wizards = generateWizards(WIZARDS_AMOUNT);
 
 const renderWizard = (wizard) => {
   const wizardElement = similarWizardTemplate.cloneNode(true);
@@ -48,6 +46,7 @@ const renderWizards = (elements) => {
   return fragment;
 };
 
-similarListElement.appendChild(renderWizards(wizards));
+similarListElement.append(renderWizards(wizards));
 
 userDialog.querySelector(`.setup-similar`).classList.remove(`hidden`);
+userDialog.classList.remove(`hidden`);
