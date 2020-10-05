@@ -76,7 +76,7 @@
       <div class="demo"></div>
 
       <div class="setup-open">
-        <img src="img/user-1.jpg" class="setup-open-icon" />
+        <img src="img/user-1.jpg" class="setup-open-icon" tabindex="0" />
       </div>
     </header>
 
@@ -84,6 +84,7 @@
       <form
         class="setup-wizard-form"
         method="post"
+        action="https://javascript.pages.academy/code-and-magick"
         enctype="multipart/form-data"
         autocomplete="off"
       >
@@ -97,6 +98,7 @@
               <input
                 type="text"
                 name="username"
+                minlength="2"
                 maxlength="25"
                 required
                 class="setup-user-name"
@@ -105,7 +107,7 @@
             </label>
           </div>
 
-          <span class="setup-close">&times;</span>
+          <span class="setup-close" tabindex="0">&times;</span>
         </div>
 
         <div class="setup-artifacts-shop">
@@ -140,10 +142,15 @@
                   <use
                     xlink:href="#wizard-coat"
                     class="wizard-coat"
+                    tabindex="0"
                     style="fill: #6589a4"
                   ></use>
                   <use xlink:href="#wizard-head" class="wizard-head"></use>
-                  <use xlink:href="#wizard-eyes" class="wizard-eyes"></use>
+                  <use
+                    xlink:href="#wizard-eyes"
+                    class="wizard-eyes"
+                    tabindex="0"
+                  ></use>
                   <use xlink:href="#wizard-hands" class="wizard-hands"></use>
                 </g>
               </svg>
@@ -153,7 +160,7 @@
           </div>
 
           <div class="setup-fireball-wrap">
-            <div class="setup-fireball"></div>
+            <div class="setup-fireball" tabindex="0"></div>
             <input type="hidden" name="fireball-color" value="#ee4830" />
           </div>
 
