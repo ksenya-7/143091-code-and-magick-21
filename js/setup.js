@@ -33,12 +33,11 @@ const FIREBALL_COLORS = [`#ee4830`, `#30a8ee`, `#5ce6c0`, `#e848d5`, `#e6e848`];
 const WIZARDS_AMOUNT = 4;
 
 const userDialog = document.querySelector(`.setup`);
-
 const similarListElement = userDialog.querySelector(`.setup-similar-list`);
-
 const similarWizardTemplate = document
   .querySelector(`#similar-wizard-template`)
   .content.querySelector(`.setup-similar-item`);
+
 
 const setupOpen = document.querySelector(`.setup-open`);
 const setup = document.querySelector(`.setup`);
@@ -84,14 +83,8 @@ const renderWizards = (wizards) => {
   return fragment;
 };
 
-const wizards = generateWizards(WIZARDS_AMOUNT);
-similarListElement.append(renderWizards(wizards));
-
-userDialog.querySelector(`.setup-similar`).classList.remove(`hidden`);
-userDialog.classList.remove(`hidden`);
-
 const onPopupEscPress = (evt) => {
-  if (evt.key === `Escape` && evt.target !== setupUserName) {
+  if (evt.key === `Escape` && evt.target !== setupUserName || evt.key === `Enter` && evt.target === setupUserName) {
     evt.preventDefault();
     setup.classList.add(`hidden`);
   }
@@ -109,9 +102,7 @@ const closePopup = () => {
   document.removeEventListener(`keydown`, onPopupEscPress);
 };
 
-setupOpen.addEventListener(`click`, () => {
-  openPopup();
-});
+setupOpen.addEventListener(`click`, openPopup);
 
 setupOpen.addEventListener(`keydown`, (evt) => {
   if (evt.key === `Enter`) {
@@ -119,9 +110,7 @@ setupOpen.addEventListener(`keydown`, (evt) => {
   }
 });
 
-setupClose.addEventListener(`click`, () => {
-  closePopup();
-});
+setupClose.addEventListener(`click`, closePopup);
 
 setupClose.addEventListener(`keydown`, (evt) => {
   if (evt.key === `Enter`) {
@@ -129,42 +118,47 @@ setupClose.addEventListener(`keydown`, (evt) => {
   }
 });
 
-const getColorThing = (thing, thingInput, array) => {
-  thingInput.value = getRandomFrom(array);
-  thing.style.fill = thingInput.value;
+const changeElementColor = (element, elementInput, colors) => {
+  elementInput.value = getRandomFrom(colors);
+  element.style.fill = elementInput.value;
 };
 
 wizardCoat.addEventListener(`click`, () => {
-  getColorThing(wizardCoat, wizardCoatInput, COAT_COLORS);
+  changeElementColor(wizardCoat, wizardCoatInput, COAT_COLORS);
 });
 
 wizardCoat.addEventListener(`keydown`, (evt) => {
   if (evt.key === `Enter`) {
-    getColorThing(wizardCoat, wizardCoatInput, COAT_COLORS);
+    changeElementColor(wizardCoat, wizardCoatInput, COAT_COLORS);
   }
 });
 
 wizardEyes.addEventListener(`click`, () => {
-  getColorThing(wizardEyes, wizardEyesInput, EYE_COLORS);
+  changeElementColor(wizardEyes, wizardEyesInput, EYE_COLORS);
 });
 
 wizardEyes.addEventListener(`keydown`, (evt) => {
   if (evt.key === `Enter`) {
-    getColorThing(wizardEyes, wizardEyesInput, EYE_COLORS);
+    changeElementColor(wizardEyes, wizardEyesInput, EYE_COLORS);
   }
 });
 
-const getBackgroundColorThing = (thing, thingInput, array) => {
-  thingInput.value = getRandomFrom(array);
-  thing.style.backgroundColor = thingInput.value;
+const changeElementBackgroundColor = (element, elementInput, colors) => {
+  elementInput.value = getRandomFrom(colors);
+  element.style.backgroundColor = elementInput.value;
 };
 
 setupFireballWrap.addEventListener(`click`, () => {
-  getBackgroundColorThing(setupFireball, setupFireballInput, FIREBALL_COLORS);
+  changeElementBackgroundColor(setupFireball, setupFireballInput, FIREBALL_COLORS);
 });
 
 setupFireballWrap.addEventListener(`keydown`, (evt) => {
   if (evt.key === `Enter`) {
-    getBackgroundColorThing(setupFireball, setupFireballInput, FIREBALL_COLORS);
+    changeElementBackgroundColor(setupFireball, setupFireballInput, FIREBALL_COLORS);
   }
 });
+
+const wizards = generateWizards(WIZARDS_AMOUNT);
+similarListElement.append(renderWizards(wizards));
+userDialog.querySelector(`.setup-similar`).classList.remove(`hidden`);
+userDialog.classList.remove(`hidden`);
