@@ -15,14 +15,18 @@ const renderWizard = (wizard) => {
   wizardElement.querySelector(`.wizard-coat`).style.fill = wizard.colorCoat;
   wizardElement.querySelector(`.wizard-eyes`).style.fill = wizard.colorEyes;
 
+  // console.log(wizardElement);
   return wizardElement;
 };
 
+// wizards.map(renderWizard).forEach((element) => fragment.append(element));
+
 const successHandler = (wizards) => {
   const fragment = document.createDocumentFragment();
+  const quantity = (wizards.length < WIZARDS_AMOUNT) ? wizards.length : WIZARDS_AMOUNT;
 
-  for (let i = 0; i < WIZARDS_AMOUNT; i++) {
-    fragment.appendChild(renderWizard(wizards[i]));
+  for (let i = 0; i < quantity; i++) {
+    fragment.append(renderWizard(wizards[i]));
   }
 
   similarListElement.append(fragment);
@@ -30,3 +34,16 @@ const successHandler = (wizards) => {
 };
 
 window.backend.load(successHandler, window.util.errorHandler);
+
+// const generateWizards = (elements, amount) => {
+//   const setupWizards = new Array(amount).fill(``);
+//   // console.log(setupWizards);
+//   for (let element of elements) {
+//     return setupWizards.map((element) => (
+//       renderWizard(element)
+//     ));
+//   }
+//   // setupWizards.map(renderWizard);
+//   console.log(setupWizards);
+//   return setupWizards;
+// };
