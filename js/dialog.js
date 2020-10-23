@@ -51,22 +51,24 @@
     }
   };
 
+  const rankComparator = (left, right) => {
+    let rankDiff = getRank(right) - getRank(left);
+    if (rankDiff === 0) {
+      rankDiff = namesComparator(left.name, right.name);
+    }
+    return rankDiff;
+  };
+
   const updateWizards = () => {
-    window.render.renderWizards(wizardsArray.sort((left, right) => {
-      let rankDiff = getRank(right) - getRank(left);
-      if (rankDiff === 0) {
-        rankDiff = namesComparator(left.name, right.name);
-      }
-      return rankDiff;
-    }));
+    window.renderWizards(wizardsArray.sort((left, right) => rankComparator(left, right)));
   };
 
   let wizard = {
-    onEyesChange: window.debounce.debounce((color) => {
+    onEyesChange: window.debounce((color) => {
       eyesColor = color;
       updateWizards();
     }),
-    onCoatChange: window.debounce.debounce((color) => {
+    onCoatChange: window.debounce((color) => {
       coatColor = color;
       updateWizards();
     })
@@ -123,50 +125,24 @@
     element.style.backgroundColor = elementInput.value;
   };
 
-  wizardCoat.addEventListener(`click`, () => {
-    wizardCoatInput.value = window.util.getRandomFrom(COAT_COLORS);
-    wizardCoat.style.fill = wizardCoatInput.value;
-    const newColor = wizardCoatInput.value;
-    wizard.onCoatChange(newColor);
-  });
+  const sortWizards = (element, elementInput, colors, onChange) => {
+    elementInput.value = window.util.getRandomFrom(colors);
+    element.style.fill = elementInput.value;
+    const newColor = elementInput.value;
+    onChange(newColor);
+  };
 
-  wizardCoat.addEventListener(`keydown`, (evt) => {
-    if (window.util.isEnter(evt)) {
-      wizardCoatInput.value = window.util.getRandomFrom(COAT_COLORS);
-      wizardCoat.style.fill = wizardCoatInput.value;
-    }
-    const newColor = wizardCoatInput.value;
-    coatColor = newColor;
-    // wizard.onCoatChange(newColor);
-    updateWizards();
-  });
+  wizardCoat.addEventListener(`click`, () => sortWizards(wizardCoat, wizardCoatInput, COAT_COLORS, wizard.onCoatChange));
 
-  wizardEyes.addEventListener(`click`, () => {
-    wizardEyesInput.value = window.util.getRandomFrom(EYE_COLORS);
-    wizardEyes.style.fill = wizardEyesInput.value;
-    const newColor = wizardEyesInput.value;
-    wizard.onEyesChange(newColor);
-  });
+  wizardCoat.addEventListener(`keydown`, (evt) => window.util.isEnter(evt) ? sortWizards(wizardCoat, wizardCoatInput, COAT_COLORS, wizard.onCoatChange) : false);
 
-  wizardEyes.addEventListener(`keydown`, (evt) => {
-    if (window.util.isEnter(evt)) {
-      wizardEyesInput.value = window.util.getRandomFrom(EYE_COLORS);
-      wizardEyes.style.fill = wizardEyesInput.value;
-    }
-    const newColor = wizardCoatInput.value;
-    window.setup.coatColor = newColor;
-    updateWizards();
-  });
+  wizardEyes.addEventListener(`click`, () => sortWizards(wizardEyes, wizardEyesInput, EYE_COLORS, wizard.onEyesChange));
 
-  setupFireballWrap.addEventListener(`click`, () => {
-    changeElementColor(setupFireball, setupFireballInput, FIREBALL_COLORS);
-  });
+  wizardEyes.addEventListener(`keydown`, (evt) => window.util.isEnter(evt) ? sortWizards(wizardEyes, wizardEyesInput, EYE_COLORS, wizard.onEyesChange) : false);
 
-  setupFireballWrap.addEventListener(`keydown`, (evt) => {
-    if (window.util.isEnter(evt)) {
-      changeElementColor(setupFireball, setupFireballInput, FIREBALL_COLORS);
-    }
-  });
+  setupFireballWrap.addEventListener(`click`, () => changeElementColor(setupFireball, setupFireballInput, FIREBALL_COLORS));
+
+  setupFireballWrap.addEventListener(`keydown`, (evt) => window.util.isEnter(evt) ? changeElementColor(setupFireball, setupFireballInput, FIREBALL_COLORS) : false);
 
   const successHandler = (wizards) => {
     wizardsArray = wizards;

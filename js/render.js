@@ -32,7 +32,5 @@
     setup.querySelector(`.setup-similar`).classList.remove(`hidden`);
   };
 
-  window.render = {
-    renderWizards
-  };
+  window.renderWizards = renderWizards;
 })();
