@@ -1,10 +1,10 @@
 "use strict";
 
-const setup = document.querySelector(`.setup`);
-const form = setup.querySelector(`.setup-wizard-form`);
+const form = document.querySelector(`.setup-wizard-form`);
 
 const submitHandler = (evt) => {
   window.backend.save(new FormData(form), () => {
+    const setup = document.querySelector(`.setup`);
     setup.classList.add(`hidden`);
   });
   evt.preventDefault();

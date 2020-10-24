@@ -1,11 +1,11 @@
 "use strict";
 
-const setup = document.querySelector(`.setup`);
-const dialogHandle = setup.querySelector(`.upload`);
+const dialogHandle = document.querySelector(`.upload`);
 
 dialogHandle.addEventListener(`mousedown`, (evt) => {
   evt.preventDefault();
 
+  const setup = document.querySelector(`.setup`);
   let startCoords = {
     x: evt.clientX,
     y: evt.clientY
