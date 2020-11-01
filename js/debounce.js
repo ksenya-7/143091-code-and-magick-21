@@ -5,13 +5,12 @@ const DEBOUNCE_INTERVAL = 500; // ms
 const debounce = (cb) => {
   let lastTimeout = null;
 
-  return (...arg) => {
-    const parameters = arg;
+  return (...args) => {
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
     lastTimeout = window.setTimeout(() => {
-      cb(...parameters);
+      cb(...args);
     }, DEBOUNCE_INTERVAL);
   };
 };

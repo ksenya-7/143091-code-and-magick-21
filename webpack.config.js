@@ -9,6 +9,7 @@ module.exports = {
     "./js/render.js",
     "./js/dialog.js",
     "./js/move.js",
+    "./js/avatar.js",
     "./js/form.js"
   ],
   output: {
